@@ -21,6 +21,9 @@ const logger = createLogger('TestMuOperations')
 const MAX_CONTENT_CHARS = 2_000_000
 const MAX_METADATA_ENTRIES = 200
 const MAX_FILE_BYTES = 50 * 1024 * 1024
+const MAX_SCROLL_STEPS = 60
+const SCROLL_STEP_DELAY_MS = 250
+const SETTLE_TIMEOUT_MS = 10_000
 
 export interface TestMuOperationContext {
   signal?: AbortSignal
@@ -104,6 +107,29 @@ async function runOnPage<R>(
   }
 }
 
+/**
+ * Scrolls to the bottom one viewport at a time so lazy-loaded images and
+ * sections render, then returns to the top. Full-page captures do not scroll,
+ * so without this they show loading placeholders below the first screen.
+ */
+async function loadLazyContent(session: TestMuSession): Promise<void> {
+  const { page } = session
+  for (let step = 0; step < MAX_SCROLL_STEPS; step++) {
+    const atBottom = await session.run(
+      page.evaluate(() => {
+        window.scrollBy(0, window.innerHeight)
+        return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2
+      })
+    )
+    await session.run(page.waitForTimeout(SCROLL_STEP_DELAY_MS))
+    if (atBottom) break
+  }
+  await session.run(page.evaluate(() => window.scrollTo(0, 0)))
+  await session.run(
+    page.waitForLoadState('networkidle', { timeout: SETTLE_TIMEOUT_MS }).catch(() => {})
+  )
+}
+
 function assertFileSize(buffer: Buffer, kind: string): void {
   if (buffer.length > MAX_FILE_BYTES) {
     throw new Error(`${kind} is ${buffer.length} bytes, above the ${MAX_FILE_BYTES} byte limit`)
@@ -163,6 +189,7 @@ export async function executeTestMuScreenshot(
   return runOnPage(input, target, 'Screenshot', context, async ({ session }) => {
     const { page } = session
     const isJpeg = input.imageFormat === 'jpeg'
+    if (input.fullPage) await loadLazyContent(session)
     const buffer = await session.run(
       page.screenshot({
         fullPage: input.fullPage,
@@ -200,6 +227,7 @@ export async function executeTestMuPdf(
     context,
     async ({ session }) => {
       const { page } = session
+      await loadLazyContent(session)
       const buffer = await session.run(
         page.pdf({
           format: input.paperFormat,
