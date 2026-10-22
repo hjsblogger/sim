@@ -59,8 +59,7 @@ jobs:
         working-directory: packages/db
         run: bun run db:migrate
 
-      - &download-e2e-build
-        name: Download the production build
+      - name: Download the production build
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: next-build
@@ -71,8 +70,7 @@ jobs:
       # A hosted build (NEXT_PUBLIC_APP_URL on sim.ai) prerenders every post; the build production
       # images use prerenders none. The URL itself is no marker: next.config's redirects name
       # www.sim.ai in every build.
-      - &extract-e2e-build
-        name: Extract the production build
+      - name: Extract the production build
         run: |
           tar -I zstd -xf "$RUNNER_TEMP/next-build.tar.zst" -C apps/sim
           jq -e '[.routes[].srcRoute] | any(. == "/blog/[slug]" or . == "/library/[slug]") | not' \
@@ -113,4 +111,3 @@ jobs:
           path: ${{ runner.temp }}/e2e/
           if-no-files-found: ignore
           retention-days: 7
-
