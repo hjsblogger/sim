@@ -113,6 +113,7 @@ const nextConfig: NextConfig = {
     '@e2b/code-interpreter',
     'e2b',
     '@daytona/sdk',
+    'playwright-core',
     '@earendil-works/pi-ai',
     '@earendil-works/pi-coding-agent',
     /**

@@ -1,0 +1,115 @@
+---
+title: TestMu AI Browser Cloud
+description: Scrape, screenshot, and print pages in a cloud browser
+integration:
+  type: "testmu"
+  color: "#0B0B0F"
+---
+
+
+{/* MANUAL-CONTENT-START:intro */}
+[TestMu AI Browser Cloud](https://www.testmuai.com/) runs real Chrome browsers in the cloud for automation and AI agents.
+
+With the TestMu AI Browser Cloud block, you can:
+
+- **Read rendered pages**: open a URL, wait for scripts to load, and return the visible text or full HTML along with the page's meta tags
+- **Capture pages as files**: take a full-page or viewport screenshot, or render the page to a PDF
+
+Find your username and access key in your TestMu AI account settings. Each run appears in the TestMu AI automation dashboard under its build name, with video and console logs.
+
+In Sim, the TestMu AI Browser Cloud block lets your agents read JavaScript-heavy sites, monitor pages on a schedule, and archive pages as screenshots or PDFs.
+{/* MANUAL-CONTENT-END */}
+
+
+## Use the block [#usage-instructions]
+
+Open webpages in a real Chrome browser on TestMu AI Browser Cloud to read rendered content, capture screenshots, or save PDFs. Every run is recorded in the TestMu AI automation dashboard with video and console logs.
+
+## Actions
+
+### TestMu Scrape
+
+Open a webpage in a TestMu AI cloud browser and return its rendered content
+
+#### Input
+
+| Parameter | Type | Required | Description |
+| --------- | ---- | -------- | ----------- |
+| `username` | string | Yes | TestMu AI username |
+| `accessKey` | string | Yes | TestMu AI access key |
+| `url` | string | Yes | URL of the webpage to open in the cloud browser |
+| `waitForSelector` | string | No | CSS selector to wait for before capturing the page |
+| `delayMs` | number | No | Extra time to wait after the page loads, in milliseconds \(max 30000\) |
+| `timeoutMs` | number | No | Navigation timeout in milliseconds \(default 30000, max 120000\) |
+| `buildName` | string | No | Build name shown in the TestMu AI automation dashboard \(default "Sim"\) |
+| `format` | string | No | Content format: text \(visible text, default\) or html \(full rendered HTML\) |
+
+#### Output
+
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `url` | string | Final page URL after redirects |
+| `title` | string | Page title |
+| `buildName` | string | Build name the session was recorded under in the TestMu AI dashboard |
+| `content` | string | Page content in the requested format |
+| `truncated` | boolean | Whether the content was cut off at the 2,000,000 character limit |
+| `statusCode` | number | HTTP status of the main document response |
+| `metadata` | json | Meta tags on the page, keyed by name or property \(e.g. og:title\) |
+
+### TestMu Screenshot
+
+Capture a screenshot of a webpage in a TestMu AI cloud browser
+
+#### Input
+
+| Parameter | Type | Required | Description |
+| --------- | ---- | -------- | ----------- |
+| `username` | string | Yes | TestMu AI username |
+| `accessKey` | string | Yes | TestMu AI access key |
+| `url` | string | Yes | URL of the webpage to open in the cloud browser |
+| `waitForSelector` | string | No | CSS selector to wait for before capturing the page |
+| `delayMs` | number | No | Extra time to wait after the page loads, in milliseconds \(max 30000\) |
+| `timeoutMs` | number | No | Navigation timeout in milliseconds \(default 30000, max 120000\) |
+| `buildName` | string | No | Build name shown in the TestMu AI automation dashboard \(default "Sim"\) |
+| `fullPage` | boolean | No | Capture the full scrollable page instead of the viewport \(default true\) |
+| `imageFormat` | string | No | Image format: png \(default\) or jpeg |
+| `quality` | number | No | JPEG quality from 1 to 100 \(jpeg only\) |
+
+#### Output
+
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `file` | file | Screenshot image stored in execution files |
+| `url` | string | Final page URL after redirects |
+| `title` | string | Page title |
+| `buildName` | string | Build name the session was recorded under in the TestMu AI dashboard |
+
+### TestMu PDF
+
+Render a webpage to a PDF in a TestMu AI cloud browser
+
+#### Input
+
+| Parameter | Type | Required | Description |
+| --------- | ---- | -------- | ----------- |
+| `username` | string | Yes | TestMu AI username |
+| `accessKey` | string | Yes | TestMu AI access key |
+| `url` | string | Yes | URL of the webpage to open in the cloud browser |
+| `waitForSelector` | string | No | CSS selector to wait for before capturing the page |
+| `delayMs` | number | No | Extra time to wait after the page loads, in milliseconds \(max 30000\) |
+| `timeoutMs` | number | No | Navigation timeout in milliseconds \(default 30000, max 120000\) |
+| `buildName` | string | No | Build name shown in the TestMu AI automation dashboard \(default "Sim"\) |
+| `paperFormat` | string | No | Paper size: A4 \(default\), A3, Letter, or Legal |
+| `landscape` | boolean | No | Use landscape orientation \(default false\) |
+| `printBackground` | boolean | No | Include background colors and images \(default true\) |
+
+#### Output
+
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `file` | file | PDF document stored in execution files |
+| `url` | string | Final page URL after redirects |
+| `title` | string | Page title |
+| `buildName` | string | Build name the session was recorded under in the TestMu AI dashboard |
+
+

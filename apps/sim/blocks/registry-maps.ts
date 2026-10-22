@@ -353,6 +353,7 @@ import { TailscaleBlock, TailscaleBlockMeta } from '@/blocks/blocks/tailscale'
 import { TavilyBlock, TavilyBlockMeta } from '@/blocks/blocks/tavily'
 import { TelegramBlock, TelegramBlockMeta } from '@/blocks/blocks/telegram'
 import { TemporalBlock, TemporalBlockMeta } from '@/blocks/blocks/temporal'
+import { TestMuBlock, TestMuBlockMeta } from '@/blocks/blocks/testmu'
 import { TextractBlock, TextractBlockMeta, TextractV2Block } from '@/blocks/blocks/textract'
 import { ThinkingBlock } from '@/blocks/blocks/thinking'
 import { ThriveBlock, ThriveBlockMeta } from '@/blocks/blocks/thrive'
@@ -727,6 +728,7 @@ export const BLOCK_REGISTRY: Record<string, BlockConfig> = {
   tavily: TavilyBlock,
   telegram: TelegramBlock,
   temporal: TemporalBlock,
+  testmu: TestMuBlock,
   textract: TextractBlock,
   textract_v2: TextractV2Block,
   thinking: ThinkingBlock,
@@ -1052,6 +1054,7 @@ export const BLOCK_META_REGISTRY: Record<string, BlockMeta> = {
   tavily: TavilyBlockMeta,
   telegram: TelegramBlockMeta,
   temporal: TemporalBlockMeta,
+  testmu: TestMuBlockMeta,
   textract: TextractBlockMeta,
   thrive: ThriveBlockMeta,
   tiktok: TikTokBlockMeta,

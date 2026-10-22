@@ -1111,6 +1111,8 @@ const GOOGLE_DRIVE_TOOL_IDS = [
 
 const STAGEHAND_TOOL_IDS = ['stagehand_agent', 'stagehand_extract'] as const
 
+const TESTMU_TOOL_IDS = ['testmu_pdf', 'testmu_scrape', 'testmu_screenshot'] as const
+
 const VISION_TOOL_IDS = ['vision_tool', 'vision_tool_v2'] as const
 
 const GITHUB_TOOL_IDS = [
@@ -1701,6 +1703,9 @@ registerFamily(handlerLoaders, GOOGLE_DRIVE_TOOL_IDS, async () => {
 })
 registerFamily(handlerLoaders, STAGEHAND_TOOL_IDS, async () => {
   return (await import('@/lib/internal/stagehand/execute-tool')).executeStagehandTool
+})
+registerFamily(handlerLoaders, TESTMU_TOOL_IDS, async () => {
+  return (await import('@/lib/internal/testmu/execute-tool')).executeTestMuTool
 })
 registerFamily(handlerLoaders, VISION_TOOL_IDS, async () => {
   return (await import('@/lib/internal/vision/execute-tool')).executeVisionTool

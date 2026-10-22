@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-21",
+  "updatedAt": "2026-10-22",
   "integrations": [
     {
       "type": "onepassword",
@@ -28060,6 +28060,38 @@
       "integrationType": "devops",
       "tags": ["automation"],
       "updatedAt": "2026-10-14"
+    },
+    {
+      "type": "testmu",
+      "slug": "testmu-ai-browser-cloud",
+      "name": "TestMu AI Browser Cloud",
+      "description": "Scrape, screenshot, and print pages in a cloud browser",
+      "longDescription": "Open webpages in a real Chrome browser on TestMu AI Browser Cloud to read rendered content, capture screenshots, or save PDFs. Every run is recorded in the TestMu AI automation dashboard with video and console logs.",
+      "bgColor": "#0B0B0F",
+      "iconName": "TestMuIcon",
+      "docsUrl": "https://docs.sim.ai/integrations/testmu",
+      "operations": [
+        {
+          "name": "Scrape Page",
+          "description": "Open a webpage in a TestMu AI cloud browser and return its rendered content"
+        },
+        {
+          "name": "Take Screenshot",
+          "description": "Capture a screenshot of a webpage in a TestMu AI cloud browser"
+        },
+        {
+          "name": "Save as PDF",
+          "description": "Render a webpage to a PDF in a TestMu AI cloud browser"
+        }
+      ],
+      "operationCount": 3,
+      "triggers": [],
+      "triggerCount": 0,
+      "authType": "api-key",
+      "category": "tools",
+      "integrationType": "search",
+      "tags": ["web-scraping", "automation", "cloud"],
+      "updatedAt": "2026-10-22"
     },
     {
       "type": "thrive",

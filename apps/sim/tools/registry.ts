@@ -5971,6 +5971,7 @@ import {
   temporalUnpauseScheduleTool,
   temporalUpdateWorkflowTool,
 } from '@/tools/temporal'
+import { testmuPdfTool, testmuScrapeTool, testmuScreenshotTool } from '@/tools/testmu'
 import {
   textractAnalyzeExpenseTool,
   textractAnalyzeIdTool,
@@ -10988,6 +10989,9 @@ export const tools: Record<string, ExecutableToolConfig> = {
   temporal_unpause_schedule: temporalUnpauseScheduleTool,
   temporal_trigger_schedule: temporalTriggerScheduleTool,
   temporal_delete_schedule: temporalDeleteScheduleTool,
+  testmu_pdf: testmuPdfTool,
+  testmu_scrape: testmuScrapeTool,
+  testmu_screenshot: testmuScreenshotTool,
   circleback_add_tag_to_meetings: circlebackAddTagToMeetingsTool,
   circleback_create_tag: circlebackCreateTagTool,
   circleback_delete_action_item: circlebackDeleteActionItemTool,

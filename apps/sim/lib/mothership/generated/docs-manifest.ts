@@ -337,6 +337,7 @@ export const DOCS_MANIFEST: readonly string[] = [
   'integrations/tavily.mdx',
   'integrations/telegram.mdx',
   'integrations/temporal.mdx',
+  'integrations/testmu.mdx',
   'integrations/textract.mdx',
   'integrations/thrive.mdx',
   'integrations/tiktok.mdx',

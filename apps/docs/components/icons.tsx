@@ -2663,6 +2663,18 @@ export function BrainIcon(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+export function TestMuIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...props} viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <rect x='2.5' y='4' width='19' height='16' rx='2.5' stroke='currentColor' strokeWidth='1.8' />
+      <path d='M2.5 8.5h19' stroke='currentColor' strokeWidth='1.8' />
+      <circle cx='5.5' cy='6.25' r='0.9' fill='currentColor' />
+      <circle cx='8.25' cy='6.25' r='0.9' fill='currentColor' />
+      <path d='M8 12.5h8M12 12.5v5' stroke='currentColor' strokeWidth='1.8' strokeLinecap='round' />
+    </svg>
+  )
+}
+
 export function StagehandIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg

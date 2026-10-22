@@ -282,6 +282,7 @@ export const BLOCK_NAMES: Readonly<Record<string, string>> = {
   tavily: 'Tavily',
   telegram: 'Telegram',
   temporal: 'Temporal',
+  testmu: 'TestMu AI Browser Cloud',
   textract_v2: 'AWS Textract',
   thinking: 'Thinking',
   thrive: 'Thrive',

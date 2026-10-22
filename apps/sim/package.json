@@ -233,6 +233,7 @@
     "opentype.js": "1.3.4",
     "pdf-lib": "1.17.1",
     "pdfjs-dist": "5.4.296",
+    "playwright-core": "1.61.1",
     "postgres": "^3.4.5",
     "posthog-js": "1.438.9",
     "posthog-node": "5.28.9",
