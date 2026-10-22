@@ -1,3 +1,4 @@
+// Hosted CI proof: an SDK-only edit selects only the SDK test and type-check.
 import { readFileSync } from 'node:fs'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { SDK_VERSION, SimStudioClient } from './index'
