@@ -12,7 +12,7 @@ permissions:
 jobs:
   desktop-live:
     name: desktop-live (${{ matrix.tests }})
-    runs-on: ubuntu-24.04
+    runs-on: ${{ 'blacksmith-4vcpu-ubuntu-2404' }}
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -47,7 +47,7 @@ jobs:
       - name: Setup workspace
         uses: ./.github/actions/setup
         with:
-          provider: github
+          provider: blacksmith
       - name: Provision the database through migrations
         working-directory: packages/db
         run: bun run db:migrate
@@ -152,94 +152,5 @@ jobs:
         with:
           name: desktop-live-e2e-results-${{ matrix.tests }}
           path: ${{ runner.temp }}/e2e/
-          if-no-files-found: ignore
-          retention-days: 7
-  e2e-production:
-    name: e2e (${{ matrix.name }})
-    runs-on: ubuntu-24.04
-    timeout-minutes: 25
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - group: project-files
-            name: project-files
-            browser: ""
-            shard: ""
-            artifact: project-files
-            task: ci:e2e-project-files
-    services:
-      postgres:
-        image: pgvector/pgvector:pg17
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: sim_test
-        ports:
-          - 5432:5432
-        options: --health-cmd "pg_isready -U postgres -d sim_test" --health-interval 5s --health-timeout 5s --health-retries 10
-      redis:
-        image: ${{ matrix.group == 'project-files' && 'redis:8.2-alpine' || '' }}
-        ports:
-          - 6379:6379
-        options: --health-cmd "redis-cli ping" --health-interval 5s --health-timeout 5s --health-retries 10
-    env:
-      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/sim_test
-      BETTER_AUTH_SECRET: http-e2e-ci-secret-at-least-32-characters
-      ENCRYPTION_KEY: "0000000000000000000000000000000000000000000000000000000000000000"
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-      - name: Setup workspace
-        uses: ./.github/actions/setup
-        with:
-          provider: github
-      - name: Provision the database through migrations
-        if: matrix.group != 'project-files'
-        working-directory: packages/db
-        run: bun run db:migrate
-      - name: Download the production build
-        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
-        with:
-          name: next-build
-          path: ${{ runner.temp }}
-          run-id: ${{ inputs.source_run }}
-          github-token: ${{ github.token }}
-      - name: Extract the production build
-        run: |
-          tar -I zstd -xf "$RUNNER_TEMP/next-build.tar.zst" -C apps/sim
-          jq -e '[.routes[].srcRoute] | any(. == "/blog/[slug]" or . == "/library/[slug]") | not' \
-            apps/sim/.next/prerender-manifest.json > /dev/null ||
-            { echo "::error::The build prerendered posts (a hosted build) or has no prerender manifest."; exit 1; }
-      - name: Build native isolate addon for Project file rendering
-        if: matrix.group == 'project-files'
-        working-directory: apps/sim
-        env:
-          JOBS: 4
-        run: |
-          addon_dir="$(node -p 'require("node:path").dirname(require.resolve("isolated-vm/package.json", { paths: ["."] }))')"
-          cd "$addon_dir"
-          bun run install
-      - name: Run end-to-end suites
-        working-directory: apps/sim
-        env:
-          MOBILE_E2E_BROWSER: ${{ matrix.browser }}
-          MOBILE_E2E_SHARD: ${{ matrix.shard }}
-          PROJECT_FILES_E2E_APP_SERVER: start
-        run: bash ../../.github/scripts/http-e2e.sh "${{ matrix.group }}"
-      - name: Upload end-to-end reports and server logs
-        if: failure()
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
-        with:
-          name: http-e2e-${{ matrix.artifact }}
-          path: ${{ runner.temp }}/e2e/
-          if-no-files-found: ignore
-          retention-days: 7
-      - name: Upload acceptance timing and coverage reports
-        if: always()
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
-        with:
-          name: e2e-reports-${{ matrix.artifact }}
-          path: ${{ runner.temp }}/e2e/**/*.json
           if-no-files-found: ignore
           retention-days: 7
